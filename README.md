@@ -11,7 +11,7 @@ Jogo da cobrinha feito em Assembly. Este projeto teve como motivação o aprendi
 
 ### Aí vai uma print (sim, tem janelinha! não é porque foi feito em assembly que tem que ser modo-texto)
 
-![print tomar tabuada](https://github.com/osdeving/tomartabuada/blob/master/print.jpg?raw=true)
+![print tomar tabuada](https://github.com/osdeving/asm-snake/blob/master/print.jpg?raw=true)
 
 
 ### Referências
