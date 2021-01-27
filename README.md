@@ -9,6 +9,11 @@ Jogo da cobrinha feito em Assembly. Este projeto teve como motivação o aprendi
 - Windows Win32 API
 - Alink
 
+### Aí vai uma print (sim, tem janelinha! não é porque foi feito em assembly que tem que ser modo-texto)
+
+![print tomar tabuada](https://github.com/osdeving/tomartabuada/blob/master/print.png?raw=true)
+
+
 ### Referências
 
 Manuais da Intel :)
