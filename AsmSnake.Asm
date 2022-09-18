@@ -1,19 +1,19 @@
 ;------------------------------------------------------------------------------------------------;
 ; Nome:                                                                                          ;
-;   AsmSnake.                                                                               ;
+;   AsmSnake.                                                                                    ;
 ;                                                                                                ;
 ; Descrição:                                                                                     ;
-;   Um clone do jogo Snake totalmente em assembly x86 compilado                          ;
+;   Um clone do jogo Snake totalmente em assembly x86 compilado                                  ;
 ;   com o nasm e linkado com o alink.                                                            ;
 ;                                                                                                ;
 ; Codado por:                                                                                    ;
-;   Willams S. de Sousa (aka will ou osdeving).                                                                                 ;
+;   Willams S. de Sousa (aka will ou osdeving).                                                  ;
 ;                                                                                                ;
 ; Assembly com:                                                                                  ;
-;   C:\>nasm -f obj -o AsmSnake.obj AsmSnake.asm                                                     ;
+;   C:\>nasm -f obj -o AsmSnake.obj AsmSnake.asm                                                 ;
 ;                                                                                                ;
 ; Link com:                                                                                      ;
-;   C:\>alink -oPE -o AsmSnake.exe AsmSnake.obj                                                      ;
+;   C:\>alink -oPE -o AsmSnake.exe AsmSnake.obj                                                  ;
 ;                                                                                                ;
 ; Download do alink:                                                                             ;
 ;   http://alink.sourceforge.net/                                                                ;
@@ -24,21 +24,21 @@
 
 
 ;------------------------------------------------------------------------------------------------;
-; Se��o de dados, onde ficam as vari�veis globais do programa e as constantes.                   ;
+; Seção de dados, onde ficam as variáveis globais do programa e as constantes.                   ;
 ;------------------------------------------------------------------------------------------------;
 [SECTION DATA USE32 CLASS=DATA]
 	szClassName      DB "ClassName", 0
 	szChildClassName DB "ChildClassName", 0
    	szAppName        DB "AsmSnake 0.1", 0
-   	szCollision      DB "Voc� colidiu. :(", 0
+   	szCollision      DB "Você colidiu. :(", 0
    	szAboutMessage   DB "Um clone do jogo AsmSnake.", 0
    	szNewGameMenu    DB "&Novo Jogo", 9, "F9", 0
    	szPauseMenu      DB "&Pause", 9, "F8", 0
    	szExitMenu       DB "&Sair", 9, "F7", 0
-   	szVeryEasyMenu   DB "&Muito F�cil", 0
-   	szEasyMenu       DB "&F�cil", 0
-   	szHardMenu       DB "&Dif�cil", 0
-   	szVeryHardMenu   DB "Muito D&if�cil", 0
+   	szVeryEasyMenu   DB "&Muito Fácil", 0
+   	szEasyMenu       DB "&Fácil", 0
+   	szHardMenu       DB "&Difícil", 0
+   	szVeryHardMenu   DB "Muito D&ifícil", 0
    	szAboutMenu      DB "&Sobre", 0
    	szGameMenu       DB "&Jogo", 0
    	szSpeedMenu      DB "&Velocidade", 0
@@ -90,26 +90,26 @@
 
 
 ;------------------------------------------------------------------------------------------------;
-; Se��o de c�digo, o c�digo do programa.                                                         ;
+; Seção de código, o código do programa.                                                         ;
 ;------------------------------------------------------------------------------------------------;
 [SECTION CODE USE32 CLASS=CODE]
 
 ..start:
 	
 	PUSH 0
-	CALL [GetModuleHandle]                  ; Obt�m a instancia (HINSTANCE) desse programa  
-	MOV DWORD [hInstance], EAX              ; e armazena na vari�vel hInstance.
+	CALL [GetModuleHandle]                  ; Obtém a instancia (HINSTANCE) desse programa  
+	MOV DWORD [hInstance], EAX              ; e armazena na variável hInstance.
 	
-	CALL WinMain                            ; Chama fun��o principal, WinMain. 
+	CALL WinMain                            ; Chama função principal, WinMain. 
 	
 	PUSH 0
 	CALL [ExitProcess]                      ; Deve ser chamado ExitProcess no final.
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o WinMain.                                                                                ;
-; Par�metros: n�o.                                                                               ;
+; Função WinMain.                                                                                ;
+; Parâmetros: não.                                                                               ;
 ; Retorno:    retorna MSG.wParam em EAX.                                                         ;
-; Descri��o:  Fun��o que cria a janela e executa o loop de mensagens.                            ;
+; Descrição:  Função que cria a janela e executa o loop de mensagens.                            ;
 ;------------------------------------------------------------------------------------------------;
 WinMain:
 	PUSH EBP                                ; stack frame.
@@ -139,7 +139,7 @@ WinMain:
 	MOV DWORD [EBP - 12], 0                 ; lpszMenuName.
 	MOV DWORD [EBP - 8], szClassName        ; lpszClassName.
 	
-	LEA EAX, [EBP - 48]                     ; Obt�m o endere�o da vari�vel WNDCLASSEX.
+	LEA EAX, [EBP - 48]                     ; Obtém o endereço da variável WNDCLASSEX.
 	PUSH EAX
 	CALL [RegisterClassEx]                  ; Registra a classe da janela.
 	
@@ -156,7 +156,7 @@ WinMain:
 	PUSH szClassName                        ; lpClassName.
 	PUSH 0                                  ; dwExStyle. 
 	CALL [CreateWindowEx]                   ; Cria a janela. 
-	MOV DWORD [hWnd], EAX                   ; Obt�m o handle da janela criada.
+	MOV DWORD [hWnd], EAX                   ; Obtém o handle da janela criada.
 	
 	PUSH 5                                  ; SW_SHOW = 5.
 	PUSH DWORD [hWnd]                       ; Handle da janela.
@@ -169,23 +169,23 @@ WinMain:
 
 .message_loop:  
                                             ; Loop de mensagens.
-	CALL [GetTickCount]                     ; Obt�m o start_tick 
+	CALL [GetTickCount]                     ; Obtém o start_tick 
 	PUSH EAX                                ; e salva ele na pilha.  
 	
 	PUSH 1                                  ; wRemoveMsg = PM_REMOVE.
 	PUSH 0                                  ; wMsgFilterMax.
    	PUSH 0                                  ; wMsgFilterMin. 
    	PUSH 0                                  ; hWnd.
-   	LEA EAX, [EBP - 76]                     ; Obt�m o endere�o da struct MSG na pilha.  
+   	LEA EAX, [EBP - 76]                     ; Obtém o endereço da struct MSG na pilha.  
    	PUSH EAX                                ; lpMsg. 
 	CALL [PeekMessage]                      ; Checa se tem mensagens.
 	
 	CMP EAX, 0
 	JNE .handle                             ; Se tem mensagem trata ela. 
-	JMP .no_handle                          ; Se n�o, n�o trata :).
+	JMP .no_handle                          ; Se não, não trata :).
 
 .handle:
-	MOV EAX, DWORD [EBP - 72]               ; Obt�m MSG.message.  
+	MOV EAX, DWORD [EBP - 72]               ; Obtém MSG.message.  
 	CMP EAX, 18                             ; Testa WM_QUIT.
 	JE .exit_message_loop                   ; Se igual WM_QUIT finaliza loop.
 	
@@ -210,22 +210,22 @@ WinMain:
 	
 .exit_message_loop:
 	CALL GameQuit                           ; Chama GameQuit.
-	MOV EAX, DWORD [EBP - 68]               ; Obt�m MSG.wParam.  
+	MOV EAX, DWORD [EBP - 68]               ; Obtém MSG.wParam.  
 	MOV ESP, EBP                            ; Desfaz stack frame. 
 	POP EBP
 	RET                                     ; Retorna.
 	
 ;------------------------------------------------------------------------------------------------;
-; Fun��o WndProc.                                                                                ;
-; Par�metros: DWORD hWnd, MSG uMsg, DWORD wParam, DWORD lParam.                                  ;
-; Retorno:    O retorno � de acordo com a mensagem tratada (em EAX).                             ;
-; Descri��o:  Fun��o que trata as mensagens.                                                     ;
+; Função WndProc.                                                                                ;
+; Parâmetros: DWORD hWnd, MSG uMsg, DWORD wParam, DWORD lParam.                                  ;
+; Retorno:    O retorno é de acordo com a mensagem tratada (em EAX).                             ;
+; Descrição:  Função que trata as mensagens.                                                     ;
 ;------------------------------------------------------------------------------------------------;
 WndProc:
 	PUSH EBP                                ; stack frame.  
 	MOV EBP, ESP
 	
-	MOV EDX, DWORD [EBP + 12]               ; Obt�m o par�metro hWnd.
+	MOV EDX, DWORD [EBP + 12]               ; Obtém o parâmetro hWnd.
 	
 	CMP EDX, 2                              ; Compara com WM_DESTROY.
 	JE .Destroy
@@ -236,17 +236,17 @@ WndProc:
 	CMP EDX, 275                            ; Compara com WM_TIMER.
 	JE .Timer
 	                        
-	PUSH DWORD [EBP + 20]                   ; Obt�m o par�metro lParam.  
-	PUSH DWORD [EBP + 16]                   ; Obt�m o par�metro wParam.
-	PUSH DWORD [EBP + 12]                   ; Obt�m o par�metro uMsg.
-	PUSH DWORD [EBP + 8]                    ; Obt�m o par�metro hWnd.
+	PUSH DWORD [EBP + 20]                   ; Obtém o parâmetro lParam.  
+	PUSH DWORD [EBP + 16]                   ; Obtém o parâmetro wParam.
+	PUSH DWORD [EBP + 12]                   ; Obtém o parãmetro uMsg.
+	PUSH DWORD [EBP + 8]                    ; Obtém o parâmetro hWnd.
 	CALL [DefWindowProc]                    ; Chama DefWindowProc.
 	
 	MOV ESP, EBP                            ; Desfaz stack frame.  
 	POP EBP		
 	RET 16                                  ; Retorna ajustando a pilha, stdcall!
 	
-.Destroy:                                       ; Trata mensagem WM_DESTROY.
+.Destroy:                                   ; Trata mensagem WM_DESTROY.
 	PUSH ID_TIMER
 	PUSH DWORD [hWnd]
 	CALL [KillTimer]
@@ -458,20 +458,20 @@ WndProc:
 	RET 16                                  ; Retorna ajustando a pilha, stdcall!
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o GameInit.                                                                               ;
-; Par�metros: n�o.                                                                               ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o:  Inicia as vari�veis do programa.                                                   ;
+; Função GameInit.                                                                               ;
+; Parâmetros: não.                                                                               ;
+; Retorno:    não.                                                                               ;
+; Descrição:  Inicia as variáveis do programa.                                                   ;
 ;------------------------------------------------------------------------------------------------;
 GameInit:
 	PUSH EBP                                ; stack frame.
 	MOV EBP, ESP
 	
-	SUB ESP, 32                             ; Aloca espa�o para duas estruturas RECT.
+	SUB ESP, 32                             ; Aloca espaço para duas estruturas RECT.
 	  
 	PUSH DWORD [hWnd]
 	CALL [GetDC]
-	MOV DWORD [hDC], EAX                    ; Obt�m o HDC da janela.
+	MOV DWORD [hDC], EAX                    ; Obtém o HDC da janela.
 	
 	PUSH EAX
 	CALL [CreateCompatibleDC]               ; Cria o HDC do buffer.
@@ -486,17 +486,17 @@ GameInit:
 	PUSH EAX
 	PUSH DWORD [hBufDC]
 	CALL [SelectObject]                     ; Seleciona hBufBmp em hBufDC.                       
-	MOV DWORD [hOldBmp], EAX                ; Obt�m o antigo bitmap.
+	MOV DWORD [hOldBmp], EAX                ; Obtém o antigo bitmap.
 	
 	LEA EAX, [EBP - 16]
 	PUSH EAX
 	PUSH DWORD [hWnd]
-	CALL [GetClientRect]                    ; Obt�m o Client Rect.
+	CALL [GetClientRect]                    ; Obtém o Client Rect.
 	
 	LEA	EAX, [EBP - 32]
 	PUSH EAX
 	PUSH DWORD [hWnd]
-	CALL [GetWindowRect]                    ; Obt�m Window Rect.
+	CALL [GetWindowRect]                    ; Obtém Window Rect.
 	
 	MOV	ECX, DWORD [(EBP - 32) + 8]
 	SUB	ECX, DWORD [(EBP - 32) + 0]
@@ -526,10 +526,10 @@ GameInit:
 	RET
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o GameMain.                                                                               ;
-; Par�metros: n�o.                                                                               ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o:  Fun��o de desenho do programa.                                                     ;
+; Função GameMain.                                                                               ;
+; Parâmetros: não.                                                                               ;
+; Retorno:    não.                                                                               ;
+; Descrição:  Função de desenho do programa.                                                     ;
 ;------------------------------------------------------------------------------------------------;
 GameMain:
 	CALL ClearBackground
@@ -558,10 +558,10 @@ GameMain:
 	RET
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o GameQuit.                                                                               ;
-; Par�metros: n�o.                                                                               ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o:  Fun��o que deleta os objetos criados.                                              ;
+; Função GameQuit.                                                                               ;
+; Parâmetros: não.                                                                               ;
+; Retorno:    não.                                                                               ;
+; Descrição:  Função que deleta os objetos criados.                                              ;
 ;------------------------------------------------------------------------------------------------;	
 GameQuit:
 	PUSH DWORD [hOldBmp]
@@ -575,21 +575,21 @@ GameQuit:
 	CALL [DeleteDC]                         ; Deleta o DC do buffer.
 	
 	PUSH DWORD [pList]
-	CALL ListFree                           ; Libera a mem�ria alocada na lista. 
+	CALL ListFree                           ; Libera a memória alocada na lista. 
 	
 	RET
 	
 ;------------------------------------------------------------------------------------------------;
-; Fun��o ListLast.                                                                               ;
-; Par�metros: DWORD pList.                                                                       ;
-; Retorno:    Retorna em EAX o �ltimo n� da lista.                                               ;
-; Descri��o:  Fun��o que retorna o �ltimo n� da lista.                                           ;
+; Função ListLast.                                                                               ;
+; Parâmetros: DWORD pList.                                                                       ;
+; Retorno:    Retorna em EAX o último nó da lista.                                               ;
+; Descrição:  Função que retorna o último nó da lista.                                           ;
 ;------------------------------------------------------------------------------------------------;
 ListLast:
 	PUSH EBP                                ; stack frame. 
 	MOV EBP, ESP	
 	
-	CMP DWORD [EBP + 8], 0                  ; Verifica se pList � NULL,
+	CMP DWORD [EBP + 8], 0                  ; Verifica se pList é NULL,
 	JE	.return                             ; se for retorna pList.
 
 .walk:
@@ -603,27 +603,27 @@ ListLast:
 	JMP .walk
 
 .return:
-	MOV	EAX, DWORD [EBP + 8]                ; EAX retorna o �ltimo n� da lista.
+	MOV	EAX, DWORD [EBP + 8]                ; EAX retorna o último nó da lista.
 
 	MOV ESP, EBP                            ; Desfaz stack frame.
 	POP	EBP
 	RET	4
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o ListAppend.                                                                             ;
-; Par�metros: DWORD pList, DWORD x, DWORD y                                                      ;
-; Retorno:    Retorna em EAX o in�cio da lista.                                                  ;
-; Descri��o:  Anexa ao fim da lista.                                                             ;
+; Função ListAppend.                                                                             ;
+; Parâmetros: DWORD pList, DWORD x, DWORD y                                                      ;
+; Retorno:    Retorna em EAX o inécio da lista.                                                  ;
+; Descrição:  Anexa ao fim da lista.                                                             ;
 ;------------------------------------------------------------------------------------------------;
 ListAppend:
 	PUSH EBP                                ; stack frame.   
 	MOV EBP, ESP
-	SUB ESP, 8                              ; Aloca espa�o para dois ponteiros: new_list e last.
+	SUB ESP, 8                              ; Aloca espaço para dois ponteiros: new_list e last.
 	
 	PUSH 12                                 ; dwBytes = 12 bytes.
 	PUSH 0x0040                             ; uFlags = GPTR. 
 	CALL [GlobalAlloc]
-	MOV DWORD [EBP - 8], EAX                ; Guarda na vari�vel local new_list.
+	MOV DWORD [EBP - 8], EAX                ; Guarda na variével local new_list.
 	
 	MOV EAX, DWORD [EBP - 8]
 	MOV ECX, DWORD [EBP + 12]
@@ -642,7 +642,7 @@ ListAppend:
 	MOV EDX, DWORD [EBP + 8]                
 	PUSH EDX
 	CALL ListLast
-	MOV	DWORD [EBP - 4], EAX            ; Obt�m �ltimo n� da lista.
+	MOV	DWORD [EBP - 4], EAX            ; Obtém éltimo né da lista.
 
 	MOV	EAX, DWORD [EBP - 4]
 	MOV	ECX, DWORD [EBP - 8]
@@ -661,26 +661,26 @@ ListAppend:
 
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o ListFree.                                                                               ;
-; Par�metros: DWORD pList.                                                                       ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o:  Libera a mem�ria alocada na lista.                                                 ;
+; Função ListFree.                                                                               ;
+; Parâmetros: DWORD pList.                                                                       ;
+; Retorno:    não.                                                                               ;
+; Descrição:  Libera a memória alocada na lista.                                                 ;
 ;------------------------------------------------------------------------------------------------;
 ListFree:
 	PUSH EBP                                ; stack frame. 
 	MOV EBP, ESP
-	PUSH ECX                                ; Aloca espa�o na pilha para um ponteiro.  
+	PUSH ECX                                ; Aloca espaço na pilha para um ponteiro.  
 	
 .walk
-	CMP	DWORD [EBP + 8], 0              ; Se pList � 0 ent�o retorna.                   
+	CMP	DWORD [EBP + 8], 0                  ; Se pList é 0 enté o retorna.                   
 	JE	.Return
 
 	MOV EAX, DWORD [EBP + 8]                
-	MOV	DWORD [EBP - 4], EAX            ; Move pList para a vari�vel local.
+	MOV	DWORD [EBP - 4], EAX                ; Move pList para a variével local.
 
 	MOV ECX, DWORD [EBP + 8]
 	MOV EDX, DWORD [ECX + 8]                ; EDX tem pList.next.
-	MOV	DWORD [EBP + 8], EDX            ; pList = pList.next.  
+	MOV	DWORD [EBP + 8], EDX                ; pList = pList.next.  
 
 	MOV EAX, DWORD [EBP - 4]                 
 	PUSH EAX
@@ -694,22 +694,22 @@ ListFree:
 	RET 4
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o ListDeleteFirst.                                                                        ;
-; Par�metros: DWORD pList.                                                                       ;
-; Retorno:    Retorna o in�cio da lista.                                                         ;
-; Descri��o:  Deleta o primeiro n� da lista.                                                     ;
+; Função ListDeleteFirst.                                                                        ;
+; Parâmetros: DWORD pList.                                                                       ;
+; Retorno:    Retorna o inécio da lista.                                                         ;
+; Descrição:  Deleta o primeiro né da lista.                                                     ;
 ;------------------------------------------------------------------------------------------------;
 ListDeleteFirst:
 	PUSH EBP                                ; stack frame. 
 	MOV EBP, ESP
-	PUSH ECX                                ; Aloca espa�o para um ponteiro. 
+	PUSH ECX                                ; Aloca espaço para um ponteiro. 
 	
-	CMP DWORD [EBP + 8], 0                  ; Se pList � 0 retorna.  
+	CMP DWORD [EBP + 8], 0                  ; Se pList é 0 retorna.  
 	JE .return
 	
 	MOV EAX, DWORD [EBP + 8]
 	MOV ECX, DWORD [EAX + 8]
-	MOV DWORD [EBP - 4], ECX                ; Coloca pList.next na vari�vel local. 
+	MOV DWORD [EBP - 4], ECX                ; Coloca pList.next na variével local. 
 	
 	MOV EDX, DWORD [EBP + 8]
 	PUSH EDX
@@ -723,36 +723,36 @@ ListDeleteFirst:
 	RET 4
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o DrawSquare.                                                                             ;
-; Par�metros: DWORD x, DWORD y, DWORD Color.                                                     ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o Desenha um quadrado da cor Color em x, y.                                            ;
+; Função DrawSquare.                                                                             ;
+; Parâmetros: DWORD x, DWORD y, DWORD Color.                                                     ;
+; Retorno:    não.                                                                               ;
+; Descrição Desenha um quadrado da cor Color em x, y.                                            ;
 ;------------------------------------------------------------------------------------------------;
 DrawSquare:
 	PUSH EBP                                ; stack frame.
 	MOV EBP, ESP
 	
-	SUB ESP, 4                              ; Aloca espa�o pra uma vari�vel HBRUSH.
+	SUB ESP, 4                              ; Aloca espaço pra uma variével HBRUSH.
 	
 	PUSH EDI                                ; Salva na pilha.
 	PUSH ESI                                ; Salva na pilha.
 	
-	PUSH DWORD [EBP + 16]                   ; Par�metro DWORD Color.
-	CALL [CreateSolidBrush]                 ; Cria um HBRUSH com a cor do par�metro Color.
-	MOV DWORD [EBP - 4], EAX                ; Guarda HBRUSH na vari�vel local.   
+	PUSH DWORD [EBP + 16]                   ; Parémetro DWORD Color.
+	CALL [CreateSolidBrush]                 ; Cria um HBRUSH com a cor do parémetro Color.
+	MOV DWORD [EBP - 4], EAX                ; Guarda HBRUSH na variével local.   
 		
 	PUSH EAX                                ; HBRUSH. 
 	PUSH DWORD [hBufDC]                     ; HDC. 
 	CALL [SelectObject]                     ; Seleciona o HBRUSH criado em hBufDC. 
 	PUSH EAX                                ; Salva o HBRUSH antigo.
 	 
-	MOV EAX, DWORD [EBP + 8]                ; Obt�m o par�metro x.
-	MOV ECX, BLOCK_SIZE                     ; Obt�m BLOCK_SIZE.
+	MOV EAX, DWORD [EBP + 8]                ; Obtém o parémetro x.
+	MOV ECX, BLOCK_SIZE                     ; Obtém BLOCK_SIZE.
 	MUL ECX                                 ; Multiplica por BLOCK_SIZE (resultado em EDX:EAX).
 	MOV EDI, EAX                            ; Salva o resultado em EDI.
 	
-	MOV EAX, DWORD [EBP + 12]               ; Obt�m o par�metro y.
-	MOV ECX, BLOCK_SIZE                     ; Obt�m BLOCK_SIZE. 
+	MOV EAX, DWORD [EBP + 12]               ; Obtém o parémetro y.
+	MOV ECX, BLOCK_SIZE                     ; Obtém BLOCK_SIZE. 
 	MUL ECX                                 ; Multiplica por BLOCK_SIZE (resultado em EDX:EAX).
 	MOV ESI, EAX                            ; Salva o resultado em ESI.
 	
@@ -765,10 +765,10 @@ DrawSquare:
 	SUB EDI, BLOCK_SIZE
 	PUSH EDI                                ; nLeftRect.
 	PUSH DWORD [hBufDC]                     ; HDC.
-	CALL [Rectangle]                        ; Desenha o ret�ngulo no hBufDC.
+	CALL [Rectangle]                        ; Desenha o reténgulo no hBufDC.
 	
 	PUSH DWORD [hBufDC]                     ; HDC
-	CALL [SelectObject]                     ; Seleciona o HBRUSH antigo que j� est� na pilha.
+	CALL [SelectObject]                     ; Seleciona o HBRUSH antigo que jé esté na pilha.
 	
 	PUSH DWORD [EBP - 4]                    ; HBRUSH.
 	CALL [DeleteObject]                     ; Deleta o HBRUSH que foi criado.
@@ -781,18 +781,18 @@ DrawSquare:
 	RET	12
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o CreateSnake.                                                                            ;
-; Par�metros: n�o.                                                                               ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o:  Fun��o que cria o snake.                                                           ;
+; Função CreateSnake.                                                                            ;
+; Parâmetros: não.                                                                               ;
+; Retorno:    não.                                                                               ;
+; Descrição:  Função que cria o snake.                                                           ;
 ;------------------------------------------------------------------------------------------------;
 CreateSnake:
 
 	PUSH DWORD [pList]
-	CALL ListFree                          ; Libera a mem�ria alocada na lista.
+	CALL ListFree                          ; Libera a memória alocada na lista.
 	MOV DWORD [pList], 0
 	
-	PUSH (WINDOW_HEIGHT / (BLOCK_SIZE + 1 )) ; Posi��o que a nave come�a na tela
+	PUSH (WINDOW_HEIGHT / (BLOCK_SIZE + 1 )) ; Posiééo que a nave comeéa na tela
 	PUSH (WINDOW_WIDTH / BLOCK_SIZE) / 2 - 1
 	PUSH DWORD [pList]
 	CALL ListAppend                        ; Anexa na lista. 
@@ -821,22 +821,22 @@ CreateSnake:
 	RET
 	
 ;------------------------------------------------------------------------------------------------;
-; Fun��o DrawSnake.                                                                              ;
-; Par�metros: DWORD pList.                                                                       ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o:  Desenha o snake.                                                                   ;
+; Função DrawSnake.                                                                              ;
+; Parâmetros: DWORD pList.                                                                       ;
+; Retorno:    não.                                                                               ;
+; Descrição:  Desenha o snake.                                                                   ;
 ;------------------------------------------------------------------------------------------------;
 DrawSnake:
 	PUSH EBP                                ; stack frame. 
 	MOV EBP, ESP
-	PUSH ECX                                ; Aloca espa�o na pilha para um ponteiro.  
+	PUSH ECX                                ; Aloca espaço na pilha para um ponteiro.  
 	
 .walk
-	CMP	DWORD [EBP + 8], 0             		; Se pList � 0 ent�o retorna.                   
+	CMP	DWORD [EBP + 8], 0             		; Se pList é 0 entéo retorna.                   
 	JE	.return
 
 	MOV EAX, DWORD [EBP + 8]                
-	MOV	DWORD [EBP - 4], EAX           	 	; Move pList para a vari�vel local.
+	MOV	DWORD [EBP - 4], EAX           	 	; Move pList para a variével local.
 
 	MOV ECX, DWORD [EBP + 8]
 	MOV EDX, DWORD [ECX + 8]
@@ -856,10 +856,10 @@ DrawSnake:
 	RET 4
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o MoveSnake.                                                                              ;
-; Par�metros: n�o                                                                                ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o:  Move o snake.                                                                      ;
+; Função MoveSnake.                                                                              ;
+; Parâmetros: não                                                                                ;
+; Retorno:    não.                                                                               ;
+; Descrição:  Move o snake.                                                                      ;
 ;------------------------------------------------------------------------------------------------;
 MoveSnake:
 	PUSH EBP                                ; stack frame. 
@@ -887,10 +887,10 @@ MoveSnake:
 	JE NEAR .return
 	
 	CMP BYTE [bGameLoop], 0
-	JE NEAR .return                         ; Se bGameLoop � NULL n�o move o snake.
+	JE NEAR .return                         ; Se bGameLoop é NULL não move o snake.
 
 	CMP DWORD [dwAnda], NAO
-	JE NEAR .return                         ; Se dwAnda for NULL, n�o move a nave.
+	JE NEAR .return                         ; Se dwAnda for NULL, não move a nave.
 	
 	MOV DWORD [dwAnda], NAO
 	
@@ -899,12 +899,12 @@ MoveSnake:
 	JNE NEAR .return
 	
 	PUSH DWORD [pList]
-	CALL ListLast                           ; Obt�m �ltimo n� da lista. 
+	CALL ListLast                           ; Obtém éltimo né da lista. 
 	
 	MOV EDX, DWORD [EAX]                    
-	MOV DWORD [EBP - 4], EDX                ; Guarda o y do �ltimo n� no y local.
+	MOV DWORD [EBP - 4], EDX                ; Guarda o y do éltimo né no y local.
 	MOV EDX, DWORD [EAX + 4] 
-	MOV DWORD [EBP - 8], EDX                ; Guarda o x do �ltimo n� no x local.
+	MOV DWORD [EBP - 8], EDX                ; Guarda o x do éltimo né no x local.
 	
 	MOV EDX, DWORD [dwToMove]
 	CMP EDX, RIGHT
@@ -917,17 +917,17 @@ MoveSnake:
 	JE .d
 	JMP .continue
 		
-.d:                                             ; Dire��o DOWN.
-	INC DWORD [EBP - 8]                     ; Incrementa vari�vel y.
+.d:                                         ; Direééo DOWN.
+	INC DWORD [EBP - 8]                     ; Incrementa variével y.
 	JMP .continue
-.u:                                             ; Dire��o UP.  
-	DEC DWORD [EBP - 8]                     ; Decrementa vari�vel y.
+.u:                                         ; Direééo UP.  
+	DEC DWORD [EBP - 8]                     ; Decrementa variével y.
 	JMP .continue
-.r:                                             ; Dire��o RIGHT.
-	INC DWORD [EBP - 4]                     ; Incrementa vari�vel x.
+.r:                                         ; Direééo RIGHT.
+	INC DWORD [EBP - 4]                     ; Incrementa variével x.
 	JMP .continue
-.l:                                             ; Dire��o LEFT.
-	DEC DWORD [EBP - 4]                     ; Decrementa vari�vel x.
+.l:                                         ; Direééo LEFT.
+	DEC DWORD [EBP - 4]                     ; Decrementa variével x.
 
 .continue:
 
@@ -935,10 +935,10 @@ MoveSnake:
 	PUSH DWORD [EBP - 4]
 	PUSH DWORD [pList]
 	
-	PUSH DWORD [EBP - 8]                    ; Vari�vel local y. 
-	PUSH DWORD [EBP - 4]                    ; Vari�vel local x. 
+	PUSH DWORD [EBP - 8]                    ; Variével local y. 
+	PUSH DWORD [EBP - 4]                    ; Variével local x. 
 	PUSH DWORD [pList]
-	CALL ListAppend                         ; Anexa um novo n�.                          
+	CALL ListAppend                         ; Anexa um novo né.                          
 	MOV DWORD [pList], EAX
 	
 	MOV EAX, DWORD [EBP - 4]
@@ -973,10 +973,10 @@ MoveSnake:
 	PUSH 0
 	PUSH DWORD [EAX + 4]
 	PUSH DWORD [EAX]
-	CALL DrawSquare                         ; Deleta graficamente o primeiro n�.
+	CALL DrawSquare                         ; Deleta graficamente o primeiro né.
 	
 	PUSH DWORD [pList]
-	CALL ListDeleteFirst                    ; Deleta o primeiro n�.
+	CALL ListDeleteFirst                    ; Deleta o primeiro né.
 	MOV DWORD [pList], EAX                  
 	
 
@@ -991,15 +991,15 @@ MoveSnake:
 	RET
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o CheckBorderCollision.                                                                   ;
-; Par�metros: n�o.                                                                               ;
+; Função CheckBorderCollision.                                                                   ;
+; Parâmetros: não.                                                                               ;
 ; Retorno:    Retorna em EAX true ou false.                                                      ;
-; Descri��o:  Checa colis�o do snaken nas bordas.                                                ;
+; Descrição:  Checa coliséo do snaken nas bordas.                                                ;
 ;------------------------------------------------------------------------------------------------;
 CheckBorderCollision:
 	PUSH EBP                                ; stack frame. 
 	MOV EBP, ESP
-	SUB ESP, 8                              ; Aloca espa�o na pilha para um ponteiro.
+	SUB ESP, 8                              ; Aloca espaço na pilha para um ponteiro.
 	
 	PUSH DWORD [pList]
 	CALL ListLast
@@ -1060,10 +1060,10 @@ CheckBorderCollision:
 	RET
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o NewGame.                                                                                ;
-; Par�metros: n�o.                                                                               ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o:  Inicia um novo jogo.                                                               ;
+; Função NewGame.                                                                                ;
+; Parâmetros: não.                                                                               ;
+; Retorno:    não.                                                                               ;
+; Descrição:  Inicia um novo jogo.                                                               ;
 ;------------------------------------------------------------------------------------------------;
 NewGame:
 	CALL CreateSnake
@@ -1090,10 +1090,10 @@ NewGame:
 	RET
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o PutFood.                                                                                ;
-; Par�metros: n�o.                                                                       ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o:  Coloca uma comida na janela.                                                       ;
+; Função PutFood.                                                                                ;
+; Parâmetros: não.                                                                               ;
+; Retorno:    não.                                                                               ;
+; Descrição:  Coloca uma comida na janela.                                                       ;
 ;------------------------------------------------------------------------------------------------;
 PutFood:
 	PUSH EBP
@@ -1113,11 +1113,11 @@ PutFood:
 	MOV DWORD [dwFoodY], EAX
 	
 .walk
-	CMP	DWORD [EBP - 8], 0                  ; Se pList � 0 ent�o retorna.                   
+	CMP	DWORD [EBP - 8], 0                  ; Se pList é 0 entéo retorna.                   
 	JE	.break
 
 	MOV EAX, DWORD [EBP - 8]                
-	MOV	DWORD [EBP - 4], EAX                ; Move pList para a vari�vel local.
+	MOV	DWORD [EBP - 4], EAX                ; Move pList para a variével local.
 
 	MOV ECX, DWORD [EBP - 8]
 	MOV EDX, DWORD [ECX + 8]                ; EDX tem pList.next.
@@ -1147,21 +1147,21 @@ PutFood:
 	RET
 	
 ;------------------------------------------------------------------------------------------------;
-; Fun��o ClearBackground.                                                                        ;
-; Par�metros: n�o.                                                                               ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o:  Apaga o fundo.                                                                     ;
+; Função ClearBackground.                                                                        ;
+; Parâmetros: não.                                                                               ;
+; Retorno:    não.                                                                               ;
+; Descrição:  Apaga o fundo.                                                                     ;
 ;------------------------------------------------------------------------------------------------;
 ClearBackground:
 	PUSH EBP                                ; stack frame.
 	MOV EBP, ESP
 	
-	SUB ESP, 4                              ; Aloca espa�o pra uma vari�vel HBRUSH.
+	SUB ESP, 4                              ; Aloca espaço pra uma variével HBRUSH.
 	
 		
 	PUSH 0
 	CALL [CreateSolidBrush]
-	MOV DWORD [EBP - 4], EAX                ; Guarda HBRUSH na vari�vel local.
+	MOV DWORD [EBP - 4], EAX                ; Guarda HBRUSH na variével local.
 	
 	PUSH EAX                                ; HBRUSH. 
 	PUSH DWORD [hBufDC]                     ; HDC. 
@@ -1173,10 +1173,10 @@ ClearBackground:
 	PUSH 0
 	PUSH 0
 	PUSH DWORD [hBufDC]                     ; HDC.
-	CALL [Rectangle]                        ; Desenha o ret�ngulo no hBufDC.
+	CALL [Rectangle]                        ; Desenha o reténgulo no hBufDC.
 	
 	PUSH DWORD [hBufDC]                     ; HDC
-	CALL [SelectObject]                     ; Seleciona o HBRUSH antigo que j� est� na pilha.
+	CALL [SelectObject]                     ; Seleciona o HBRUSH antigo que jé esté na pilha.
 	
 	PUSH DWORD [EBP - 4]                    ; HBRUSH.
 	CALL [DeleteObject]                     ; Deleta o HBRUSH que foi criado.
@@ -1187,10 +1187,10 @@ ClearBackground:
 	
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o CreateAndInsertMenu.                                                                    ;
-; Par�metros: n�o.                                                                               ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o:  Cria e insere o menu do programa.                                                  ;
+; Função CreateAndInsertMenu.                                                                    ;
+; Parâmetros: não.                                                                               ;
+; Retorno:    não.                                                                               ;
+; Descrição:  Cria e insere o menu do programa.                                                  ;
 ;------------------------------------------------------------------------------------------------;
 CreateAndInsertMenu:
 	PUSH EBP
@@ -1299,10 +1299,10 @@ CreateAndInsertMenu:
 	RET
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o DrawScore.                                                                              ;
-; Par�metros: n�o.                                                                               ;
-; Retorno:    n�o.                                                                               ;
-; Descri��o:  Desenha o placar.                                                                  ;
+; Função DrawScore.                                                                              ;
+; Parâmetros: não.                                                                               ;
+; Retorno:    não.                                                                               ;
+; Descrição:  Desenha o placar.                                                                  ;
 ;------------------------------------------------------------------------------------------------;
 DrawScore:
 	PUSH 6                          ; WHITE_PEN
@@ -1354,10 +1354,10 @@ DrawScore:
 	RET
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o a2dw.                                                                                   ;
-; Par�metros: DWORD lpszString.                                                                  ;
+; Função a2dw.                                                                                   ;
+; Parâmetros: DWORD lpszString.                                                                  ;
 ; Retorno:    Retorna o valor em EAX.                                                            ;
-; Descri��o:  Fun��o que converte uma string em um DWORD.                                        ;
+; Descrição:  Função que converte uma string em um DWORD.                                        ;
 ;------------------------------------------------------------------------------------------------;
 a2dw:
 	PUSH EBP
@@ -1398,10 +1398,10 @@ a2dw:
     RET 4
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��o Random.                                                                                 ;
-; Par�metros: DWORD teto.                                                                        ;
-; Retorno:    Retorna o n�mero aleat�rio em EAX.                                                 ;
-; Descri��o:  Gera um n�mero aleat�rio.                                                          ;
+; Função Random.                                                                                 ;
+; Parâmetros: DWORD teto.                                                                        ;
+; Retorno:    Retorna o némero aleatério em EAX.                                                 ;
+; Descrição:  Gera um némero aleatério.                                                          ;
 ;------------------------------------------------------------------------------------------------;
 Random:
 	PUSH EBP
@@ -1440,7 +1440,7 @@ Random:
 	RET	4
 
 ;------------------------------------------------------------------------------------------------;
-; Fun��es importadas das dlls do Windows.                                                        ;
+; Funéées importadas das dlls do Windows.                                                        ;
 ;------------------------------------------------------------------------------------------------;	
 IMPORT ExitProcess  kernel32.dll
 IMPORT MessageBox user32.dll MessageBoxA
